@@ -6,7 +6,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "compile": "tsc && node build/app.js",
+    "compile": "tsc && node build/app.js || exit 1",
     "dev": "node node_modules\\nodemon\\bin\\nodemon.js -e ts  --exec \"npm run compile\""
   },
   "dependencies": {
