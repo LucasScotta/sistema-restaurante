@@ -4,7 +4,8 @@ let id = 1
 export const users: User[] = [{ id: 0, name: 'dunfu', password: 'as' }]
 
 export function setNewUser(name: string, password: string) {
-    users.push({ id, name, password })
+    const user = { id, name, password }
+    users.push(user)
     id += 1
 }
 

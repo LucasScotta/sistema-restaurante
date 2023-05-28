@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { User } from "../model";
 import { getUser, setNewUser, users } from "./users";
+import { jwt } from "../router/middleware";
+import { sign } from "jsonwebtoken";
+import { JWT_SECRET_KEY } from "../config";
 
 const router = Router()
 
@@ -17,7 +20,7 @@ router.post('/create', (req, resp) => {
     return resp.status(400).json({ message: 'Forbidden credentials' })
 })
 
-router.get('/', (req, resp) => {
+router.get('/', jwt, (req, resp) => {
     resp.json(users)
 })
 
@@ -26,7 +29,9 @@ router.post('/', (req, resp) => {
     if (!!name && !!password) {
         const user: User | undefined = getUser(name, password)
         if (!!user) {
-            return resp.json(user)
+            const { id, name } = user
+            const token = sign({ name }, JWT_SECRET_KEY, { expiresIn: '2h' })
+            return resp.json({ user: { name }, token })
         }
         return resp.status(401).json({ message: 'Invalid credentials' })
     }
