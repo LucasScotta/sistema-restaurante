@@ -4,12 +4,10 @@ import { getUser, setNewUser, users } from "./users";
 import { jwt } from "../router/middleware";
 import { sign } from "jsonwebtoken";
 import { JWT_SECRET_KEY } from "../config";
+import { UserDTO } from "../model/UserDTO";
 
 const router = Router()
-interface UserDTO {
-    name?: string
-    password?: string
-}
+
 router.post('/create', (req, resp) => {
     const { name, password }: UserDTO = req.body
     if (!!name && !!password) {
