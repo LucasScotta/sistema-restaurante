@@ -11,5 +11,5 @@ export function setNewUser(name: string, password: string) {
 
 export function getUser(name: string, password: string) {
     const user = users.find(user => user.name === name && user.password === password)
-    return user
+    return !!user && { id: user.id, name: user.name }
 }
