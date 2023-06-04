@@ -1,8 +1,8 @@
-export type Rol = 'admin' | 'chef' | 'weiter'
+export type Rol = 'admin' | 'chef' | 'waiter'
 
 export interface User {
     id: number
-    name: string
+    username: string
     password: string
     rol: Rol
 }
