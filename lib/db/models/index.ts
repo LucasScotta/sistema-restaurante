@@ -1,2 +1,2 @@
-export * from './RolModel'
-export * from './UserModel'
+export * from './RolSchema'
+export * from './UserSchema'

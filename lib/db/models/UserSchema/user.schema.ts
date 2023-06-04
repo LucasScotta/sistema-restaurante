@@ -1,5 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 import pg from 'pg';
+import { UserSchema } from "./user.model";
 
 const sequelize = new Sequelize('bussiness', 'admin', 'admin', {
     host: 'localhost',
@@ -9,7 +10,7 @@ const sequelize = new Sequelize('bussiness', 'admin', 'admin', {
     logging: false
 })
 
-export const User = sequelize.define('user', {
+export const User: UserSchema = sequelize.define('user', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

@@ -40,13 +40,14 @@ class Db {
     }
     async getDunfu() {
         const RolModel = this.Rol
-        const user = await this.User.findOne({
+        const UserModel = this.User
+        const dunfu = await UserModel.findOne({
             where: {
                 username: 'dunfu'
             },
-            include: { model: RolModel }
+            include: RolModel
         })
-        console.log(user?.dataValues)
+        console.log(dunfu?.dataValues)
     }
 }
 
