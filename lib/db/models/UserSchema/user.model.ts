@@ -7,5 +7,5 @@ export interface UserAttributes {
     createdAt: string
     updatedAt: string
 }
-export type createUserAttributes = Optional<UserAttributes, 'id'>
-export type UserSchema = ModelDefined<UserAttributes, createUserAttributes>
+export type createUserAttributes = Optional<UserAttributes, 'id' | 'createdAt' | 'updatedAt'>
+export type UserSchemaType = ModelDefined<UserAttributes, createUserAttributes>

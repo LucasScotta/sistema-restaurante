@@ -5,4 +5,4 @@ export interface RolAttributes {
     userId: number
     rol: Rol
 }
-export type UserSchema = ModelDefined<RolAttributes, RolAttributes>
+export type UserSchemaType = ModelDefined<RolAttributes, RolAttributes>

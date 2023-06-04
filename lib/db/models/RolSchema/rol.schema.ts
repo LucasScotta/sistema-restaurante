@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize'
 import pg from 'pg';
-import { UserSchema } from './rol.models';
+import { UserSchemaType } from './rol.models';
 
 const sequelize = new Sequelize('bussiness', 'admin', 'admin', {
     host: 'localhost',
@@ -10,7 +10,7 @@ const sequelize = new Sequelize('bussiness', 'admin', 'admin', {
     logging: false
 })
 
-export const Rol: UserSchema = sequelize.define('role', {
+export const RolSchema: UserSchemaType = sequelize.define('role', {
     userId: {
         type: DataTypes.BIGINT,
         unique: true,

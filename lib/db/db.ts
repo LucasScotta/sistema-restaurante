@@ -1,16 +1,17 @@
 import { Sequelize } from "sequelize";
 import pg from 'pg';
-import { User, Rol } from "./models";
+import { UserSchema, RolSchema } from "./models";
+import { UserCreation } from "../model";
+import { User, UserDTO } from "../model";
 
 class Db {
     private connection: Sequelize | null = null
-    private User = User
-    private Rol = Rol
+    private UserSchema = UserSchema
+    private RolSchema = RolSchema
     constructor() {
         this.init()
         if (!this.connection) return
         this.syncTables()
-        this.getDunfu()
     }
     init() {
         try {
@@ -27,8 +28,8 @@ class Db {
         }
     }
     async syncTables() {
-        const UserModel = this.User
-        const RolModel = this.Rol
+        const UserModel = this.UserSchema
+        const RolModel = this.RolSchema
         UserModel.hasOne(RolModel)
         RolModel.belongsTo(UserModel, {
             targetKey: 'id',
@@ -38,16 +39,22 @@ class Db {
         await UserModel.sync()
         await RolModel.sync()
     }
-    async getDunfu() {
-        const RolModel = this.Rol
-        const UserModel = this.User
-        const dunfu = await UserModel.findOne({
-            where: {
-                username: 'dunfu'
-            },
-            include: RolModel
-        })
-        console.log(dunfu?.dataValues)
+    async createUser({ username, password, rol = 'waiter' }: UserCreation): Promise<UserDTO | Error> {
+        const UserModel = this.UserSchema
+        const RolModel = this.RolSchema
+        try {
+            const result = (await UserModel.create({
+                username,
+                password
+            })).dataValues
+            const { id } = result
+            await RolModel.create({ userId: id, rol })
+            return { id, username, rol }
+        }
+        catch (e) {
+            return new Error('Username is already in use')
+        }
+
     }
 }
 
