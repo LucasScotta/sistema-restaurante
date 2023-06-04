@@ -9,14 +9,14 @@ import { UserDTO } from "../model/UserDTO";
 const router = Router()
 
 router.post('/create', (req, resp) => {
-    const { name, password }: UserDTO = req.body
+    const { name, password, rol }: UserDTO = req.body
     if (!!name && !!password) {
         const user: User | undefined = users.find(user => user.name === name && user.password === password)
         if (!!user) {
             return resp.status(409).json({ message: 'User already exists' })
         }
 
-        return resp.json(setNewUser(name, password))
+        return resp.json(setNewUser(name, password, rol))
     }
     return resp.status(400).json({ message: 'Forbidden credentials' })
 })
