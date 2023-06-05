@@ -1,6 +1,7 @@
 import { Rol } from "./User"
 
-export interface UserCreationDTO {
+export interface UserActionsDTO {
+    id?: number
     username?: string
     password?: string
     rol?: Rol

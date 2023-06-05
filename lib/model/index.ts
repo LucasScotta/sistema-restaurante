@@ -1,4 +1,4 @@
 export * from './User'
 export * from './UserCreation'
-export * from './UserCreationDTO'
+export * from './UserActionsDTO'
 export * from './UserDTO'

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserCreationDTO } from "../../../model/UserCreationDTO";
+import { UserActionsDTO } from "../../../model";
 import { sequelize } from "../../../db";
 
 export const createUser = async (req: Request, resp: Response) => {
