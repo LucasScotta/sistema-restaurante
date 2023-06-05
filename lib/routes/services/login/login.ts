@@ -1,14 +1,18 @@
-import { Request, Response } from "express";
+import { Handler } from "express";
 import { UserActionsDTO } from "../../../model";
 import { sequelize } from "../../../db";
+import { sign } from "jsonwebtoken";
+import { JWT_SECRET_KEY } from "../../../config";
 
-export const login = async (req: Request, resp: Response) => {
-    const { username, password, rol }: UserActionsDTO = req.body
+export const login: Handler = async (req, resp) => {
+    const { username, password }: UserActionsDTO = req.body
     if (!username || !password) return resp.status(400).json({ message: 'Forbidden credentials' })
 
     const user = await sequelize.getByPassword({ username, password })
     if (user instanceof Error) {
         return resp.status(403).json({ messasge: user.message })
     }
-    return resp.status(200).json(user)
+
+    const token = sign({ user }, JWT_SECRET_KEY, { expiresIn: '2h' })
+    return resp.status(200).json({ user, token })
 }
