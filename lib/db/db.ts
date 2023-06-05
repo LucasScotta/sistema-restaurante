@@ -28,16 +28,14 @@ class Db {
         }
     }
     async syncTables() {
-        const UserModel = this.UserSchema
-        const RolModel = this.RolSchema
-        UserModel.hasOne(RolModel)
-        RolModel.belongsTo(UserModel, {
-            targetKey: 'id',
-            onUpdate: 'cascade',
-            onDelete: 'cascade',
-        })
-        await UserModel.sync()
-        await RolModel.sync()
+        const UserModel = this.UserSchema;
+        const RolModel = this.RolSchema;
+
+        UserModel.hasOne(RolModel, { foreignKey: 'userId', as: 'roles', sourceKey: 'id' });
+        RolModel.belongsTo(UserModel, { foreignKey: 'userId', as: 'user', targetKey: 'id' });
+
+        await UserModel.sync();
+        await RolModel.sync();
     }
     async createUser({ username, password, rol = 'waiter' }: UserCreation): Promise<UserDTO | Error> {
         const UserModel = this.UserSchema
