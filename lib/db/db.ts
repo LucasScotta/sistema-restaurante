@@ -80,6 +80,16 @@ class Db {
             throw new Error('Something went wrong, please contact support')
         }
     }
+    async deleteOne(id?: number, username?: string) {
+        if (!username && !id) return new Error('Forbbidden credentials, please supply username or user ID')
+        try {
+            const UserModel = this.UserSchema
+            const result = await UserModel.destroy(id ? { where: { id } } : { where: { username } })
+            return result
+        } catch (error) {
+            return error
+        }
+    }
 }
 
 export const sequelize = new Db()

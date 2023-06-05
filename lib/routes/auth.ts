@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, createUser } from "./services";
+import { login, createUser, deleteUser } from "./services";
 
 const router = Router()
 
@@ -12,5 +12,7 @@ router.get('/', (req, resp) => {
 //Esto es para el login
 // const token = sign({ username }, JWT_SECRET_KEY, { expiresIn: '2h' })
 router.post('/', login)
+
+router.delete('/', deleteUser)
 
 export { router as auth }

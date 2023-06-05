@@ -3,7 +3,7 @@ import { UserActionsDTO } from "../../../model";
 import { sequelize } from "../../../db";
 
 export const createUser = async (req: Request, resp: Response) => {
-    const { username, password, rol }: UserCreationDTO = req.body
+    const { username, password, rol }: UserActionsDTO = req.body
     if (!username || !password) return resp.status(400).json({ message: 'Forbidden credentials' })
 
     const user = await sequelize.createUser({ username, password, rol })
