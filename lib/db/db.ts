@@ -80,14 +80,35 @@ class Db {
             throw new Error('Something went wrong, please contact support')
         }
     }
-    async deleteOne(id?: number, username?: string) {
+    async deleteOne(id?: number, username?: string): Promise<boolean | Error> {
         if (!username && !id) return new Error('Forbbidden credentials, please supply username or user ID')
         try {
             const UserModel = this.UserSchema
             const result = await UserModel.destroy(id ? { where: { id } } : { where: { username } })
-            return result
+            return !!result
         } catch (error) {
-            return error
+            throw new Error('Something went wrong while executing query')
+        }
+    }
+    async getAllUsers(): Promise<UserDTO[] | Error> {
+        try {
+            const userModel = this.UserSchema
+            const results = await userModel.findAll({
+                include: [
+                    {
+                        model: RolSchema,
+                        as: 'roles',
+                    },
+                ],
+            })
+            return results.map((user): UserDTO => {
+                const { id, username } = user.dataValues
+                const rol = user.dataValues.roles?.rol
+                return { id, username, rol: rol || 'waiter' }
+            })
+        }
+        catch (err) {
+            throw new Error('Something wrong while executing query')
         }
     }
 }
