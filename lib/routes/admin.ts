@@ -3,6 +3,6 @@ import { getUsers } from "./services";
 
 const router = Router()
 
-router.get('/', getUsers)
+router.get('/users', getUsers)
 
 export { router as admin }
