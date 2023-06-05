@@ -52,7 +52,33 @@ class Db {
         catch (e) {
             return new Error('Username is already in use')
         }
+    }
+    async getByPassword({ username, password }: UserCreation): Promise<UserDTO | Error> {
+        const UserModel = this.UserSchema
 
+        try {
+            const result = (await UserModel.findOne({
+                where: {
+                    username,
+                    password
+                },
+                include: [
+                    {
+                        model: RolSchema,
+                        as: 'roles',
+                    },
+                ],
+            }))?.toJSON()
+
+            if (!result || !result.roles) return new Error('Credentials are invalids')
+
+            const { id } = result
+            const { rol } = result.roles
+            return { id, username, rol }
+        }
+        catch (error) {
+            throw new Error('Something went wrong, please contact support')
+        }
     }
 }
 
