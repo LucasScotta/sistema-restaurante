@@ -1,4 +1,4 @@
-import { Handler, RequestHandler } from "express";
+import { RequestHandler } from "express";
 import { UserActionsDTO } from "../../../../model";
 import { sequelize } from "../../../../db";
 import { sign } from "jsonwebtoken";

@@ -1,4 +1,4 @@
-import { Handler, RequestHandler } from "express";
+import { RequestHandler } from "express";
 import { sequelize } from "../../../../db";
 
 export const getUsers: RequestHandler = async (req, resp) => {

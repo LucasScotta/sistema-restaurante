@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, createUser, deleteUser } from "./services";
+import { login } from "./services";
 
 const router = Router()
 

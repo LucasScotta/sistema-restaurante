@@ -1,4 +1,4 @@
-import { Handler, RequestHandler } from "express";
+import { RequestHandler } from "express";
 import { sequelize } from "../../../../db";
 import { UserActionsDTO } from "../../../../model";
 
