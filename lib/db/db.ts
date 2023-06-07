@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 import pg from 'pg';
 import { UserSchema, RolSchema } from "./models";
-import { UserCreation } from "../model";
+import { UserActionsDTO, UserCreation } from "../model";
 import { User, UserDTO } from "../model";
 
 class Db {

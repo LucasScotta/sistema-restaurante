@@ -10,5 +10,5 @@ export const createUser = async (req: Request, resp: Response) => {
     if (user instanceof Error) {
         return resp.status(403).json({ messasge: user.message })
     }
-    return resp.status(200).json(user)
+    return resp.status(201).json(user)
 }
