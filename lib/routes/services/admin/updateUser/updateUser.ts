@@ -1,6 +1,6 @@
 import { Handler, RequestHandler } from "express";
-import { sequelize } from "../../../db";
-import { UserActionsDTO } from "../../../model";
+import { sequelize } from "../../../../db";
+import { UserActionsDTO } from "../../../../model";
 
 export const updateUser: RequestHandler = async (req, resp) => {
     const { id, username, rol }: UserActionsDTO = req.body

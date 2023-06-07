@@ -1,5 +1,2 @@
-export * from './createUser'
-export * from './login'
-export * from './deleteUser'
-export * from './getUsers'
-export * from './updateUser'
+export * from './admin'
+export * from './auth'

@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
-import { UserActionsDTO } from "../../../model";
-import { sequelize } from "../../../db";
+import { UserActionsDTO } from "../../../../model";
+import { sequelize } from "../../../../db";
 
 export const deleteUser: RequestHandler = async (req, resp) => {
     const { username, id }: UserActionsDTO = req.body

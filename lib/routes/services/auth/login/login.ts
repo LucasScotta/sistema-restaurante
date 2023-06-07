@@ -1,8 +1,8 @@
 import { Handler, RequestHandler } from "express";
-import { UserActionsDTO } from "../../../model";
-import { sequelize } from "../../../db";
+import { UserActionsDTO } from "../../../../model";
+import { sequelize } from "../../../../db";
 import { sign } from "jsonwebtoken";
-import { JWT_SECRET_KEY } from "../../../config";
+import { JWT_SECRET_KEY } from "../../../../config";
 
 export const login: RequestHandler = async (req, resp) => {
     const { username, password }: UserActionsDTO = req.body

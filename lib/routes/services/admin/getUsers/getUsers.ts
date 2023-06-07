@@ -1,5 +1,5 @@
 import { Handler, RequestHandler } from "express";
-import { sequelize } from "../../../db";
+import { sequelize } from "../../../../db";
 
 export const getUsers: RequestHandler = async (req, resp) => {
     const users = await sequelize.getAllUsers()

@@ -1,6 +1,6 @@
 import { Handler, Request, RequestHandler, Response } from "express";
-import { UserActionsDTO } from "../../../model";
-import { sequelize } from "../../../db";
+import { UserActionsDTO } from "../../../../model";
+import { sequelize } from "../../../../db";
 
 export const createUser: RequestHandler = async (req, resp) => {
     const { username, password, rol }: UserActionsDTO = req.body
