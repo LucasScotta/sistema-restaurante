@@ -1,10 +1,10 @@
-import { Handler } from "express";
+import { Handler, RequestHandler } from "express";
 import { UserActionsDTO } from "../../../model";
 import { sequelize } from "../../../db";
 import { sign } from "jsonwebtoken";
 import { JWT_SECRET_KEY } from "../../../config";
 
-export const login: Handler = async (req, resp) => {
+export const login: RequestHandler = async (req, resp) => {
     const { username, password }: UserActionsDTO = req.body
     if (!username || !password) return resp.status(400).json({ message: 'Forbidden credentials' })
 

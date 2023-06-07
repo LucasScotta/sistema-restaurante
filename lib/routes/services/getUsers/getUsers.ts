@@ -1,7 +1,7 @@
-import { Handler } from "express";
+import { Handler, RequestHandler } from "express";
 import { sequelize } from "../../../db";
 
-export const getUsers: Handler = async (req, resp) => {
+export const getUsers: RequestHandler = async (req, resp) => {
     const users = await sequelize.getAllUsers()
     if (users instanceof Error) {
         const { message } = users

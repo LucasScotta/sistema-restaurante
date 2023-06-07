@@ -1,8 +1,8 @@
-import { Handler } from "express";
+import { Handler, RequestHandler } from "express";
 import { sequelize } from "../../../db";
 import { UserActionsDTO } from "../../../model";
 
-export const updateUser: Handler = async (req, resp) => {
+export const updateUser: RequestHandler = async (req, resp) => {
     const { id, username, rol }: UserActionsDTO = req.body
     if (!id) return resp.status(400).json({ status: 'failed', message: "User ID is queired for this operation" })
 

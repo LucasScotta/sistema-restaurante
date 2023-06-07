@@ -1,7 +1,7 @@
-import { Handler } from "express";
+import { RequestHandler } from "express";
 import { JwtPayload, verify } from "jsonwebtoken";
 import { JWT_SECRET_KEY } from "../../config";
-export const isAdmin: Handler = async (req, resp, next) => {
+export const isAdmin: RequestHandler = async (req, resp, next) => {
 
     try {
         const { authorization } = req.headers

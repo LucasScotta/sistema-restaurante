@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { Handler, Request, RequestHandler, Response } from "express";
 import { UserActionsDTO } from "../../../model";
 import { sequelize } from "../../../db";
 
-export const createUser = async (req: Request, resp: Response) => {
+export const createUser: RequestHandler = async (req, resp) => {
     const { username, password, rol }: UserActionsDTO = req.body
     if (!username || !password) return resp.status(400).json({ message: 'Forbidden credentials' })
 
