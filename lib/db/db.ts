@@ -111,6 +111,18 @@ class Db {
             throw new Error('Something wrong while executing query')
         }
     }
+    async updateById(id: number, newData: UserActionsDTO) {
+        const { username, rol } = newData
+        if (!username && !rol) return
+        try {
+            if (username) await this.UserSchema.update({ username }, { where: { id } })
+            if (rol) await this.RolSchema.update({ rol }, { where: { userId: id } })
+            return true
+        }
+        catch (e) {
+            return new Error('Something went wrong updating the user, please try again')
+        }
+    }
 }
 
 export const sequelize = new Db()
