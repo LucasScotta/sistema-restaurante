@@ -1,4 +1,4 @@
-import { Rol } from "./User"
+import { Rol } from "./Rol"
 
 export interface UserCreation {
     username: string

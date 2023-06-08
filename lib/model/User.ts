@@ -1,4 +1,4 @@
-export type Rol = 'admin' | 'chef' | 'waiter'
+import { Rol } from "./Rol"
 
 export interface User {
     id: number
