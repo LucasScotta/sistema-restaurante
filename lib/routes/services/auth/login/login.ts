@@ -15,6 +15,9 @@ export const login: RequestHandler = async (req, resp) => {
         return resp.status(403).json({ messasge: user.message })
     }
 
-    const token = sign({ user }, JWT_SECRET_KEY, { expiresIn: '2h' })
-    return resp.status(200).json({ user, token })
+    const exp = getExpirationTime()
+    const expiresIn = expirationInSeconds
+
+    const token = sign({ user }, JWT_SECRET_KEY, { expiresIn })
+    return resp.status(200).json({ user, token, exp })
 }
