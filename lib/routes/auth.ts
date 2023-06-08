@@ -1,11 +1,10 @@
 import { Router } from "express";
-import { login } from "./services";
+import { login, refreshToken } from "./services";
+import { jwtMiddleware } from "../router/middleware";
 
 const router = Router()
 
-//Esto es para el login
-// const token = sign({ username }, JWT_SECRET_KEY, { expiresIn: '2h' })
 router.post('/', login)
-
+router.get('/refresh', jwtMiddleware, refreshToken)
 
 export { router as auth }

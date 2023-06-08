@@ -1,2 +1,2 @@
-export * from './jwt'
+export * from './jwtMiddleware'
 export * from './isAdmin'
