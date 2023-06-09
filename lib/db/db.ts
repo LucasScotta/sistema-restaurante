@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import pg from 'pg';
-import { UserSchema, RolSchema } from "./models";
+import { UserSchema, RolSchema, ProductSchema } from "./models";
 import { UserActionsDTO, UserCreation } from "../model";
 import { User, UserDTO } from "../model";
 
@@ -8,6 +8,7 @@ class Db {
     private connection: Sequelize | null = null
     private UserSchema = UserSchema
     private RolSchema = RolSchema
+    private ProductSchema = ProductSchema
     constructor() {
         this.init()
         if (!this.connection) return
@@ -28,14 +29,16 @@ class Db {
         }
     }
     async syncTables() {
-        const UserModel = this.UserSchema;
-        const RolModel = this.RolSchema;
+        const UserModel = this.UserSchema
+        const RolModel = this.RolSchema
+        const ProductSchema = this.ProductSchema
 
-        UserModel.hasOne(RolModel, { foreignKey: 'userId', as: 'roles', sourceKey: 'id' });
-        RolModel.belongsTo(UserModel, { foreignKey: 'userId', as: 'user', targetKey: 'id' });
+        UserModel.hasOne(RolModel, { foreignKey: 'userId', as: 'roles', sourceKey: 'id' })
+        RolModel.belongsTo(UserModel, { foreignKey: 'userId', as: 'user', targetKey: 'id' })
 
-        await UserModel.sync();
-        await RolModel.sync();
+        await UserModel.sync()
+        await RolModel.sync()
+        await ProductSchema.sync()
     }
     async createUser({ username, password, rol = 'waiter' }: UserCreation): Promise<UserDTO | Error> {
         const UserModel = this.UserSchema
