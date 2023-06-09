@@ -8,13 +8,11 @@ export class Store {
     private tables: Table[] = []
     private products: IProduct[] = []
     constructor(tablesQuantity: number = 5) {
-        console.log('constructor')
         this.products = []
         sequelize
             .getProducts()
             .then(products => {
                 this.products = products.map(product => product.dataValues)
-                console.log(this.products)
             })
             .catch(e => {
                 console.log('problem getting products', e)

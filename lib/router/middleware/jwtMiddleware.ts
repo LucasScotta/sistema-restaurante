@@ -21,7 +21,6 @@ export const jwtMiddleware: Handler = (req, resp, next) => {
         return next()
     }
     catch (e) {
-        console.log(e)
         return resp.status(401).json({ status: 'failed', message: 'Session expired' })
     }
 }
