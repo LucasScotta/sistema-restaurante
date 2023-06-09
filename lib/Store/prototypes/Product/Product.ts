@@ -4,12 +4,12 @@ export class Product {
     private id: number
     private name: string
     private price: number
-    private category: Category
-    constructor({ id, name, price, category }: IProduct) {
+    // private category: Category
+    constructor({ id, name, price/*, category*/ }: IProduct) {
         this.id = id
         this.name = name
         this.price = price
-        this.category = category
+        // this.category = category
     }
 
     /**
@@ -34,15 +34,15 @@ export class Product {
      * Returns the category of the product
      * @returns Product category
      */
-    public getCategory = (): string => this.category
+    // public getCategory = (): string => this.category
 
     /**
      * Returns a copy of the products with its properties
      * @returns Readonly: IProduct
      */
     public getInfo = (): Readonly<IProduct> => {
-        const { id, name, price, category } = this
-        return Object.freeze({ id, name, price, category })
+        const { id, name, price/*, category*/ } = this
+        return Object.freeze({ id, name, price/*, category*/ })
     }
 
     /**

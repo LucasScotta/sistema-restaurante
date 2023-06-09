@@ -1,10 +1,24 @@
+import { Model } from "sequelize";
 import { IProduct, ITable } from "../../models";
 import { Product } from "../Product";
 import { Table } from "../Table";
+import { sequelize } from "../../../db";
 
 export class Store {
     private tables: Table[] = []
+    private products: IProduct[] = []
     constructor(tablesQuantity: number = 5) {
+        console.log('constructor')
+        this.products = []
+        sequelize
+            .getProducts()
+            .then(products => {
+                this.products = products.map(product => product.dataValues)
+                console.log(this.products)
+            })
+            .catch(e => {
+                console.log('problem getting products', e)
+            })
         this.init(tablesQuantity)
     }
 
@@ -85,4 +99,10 @@ export class Store {
      * @returns {number} number
      */
     private findIndexTableById = (tableId: number): number => this.tables.findIndex(table => table.getId() === tableId)
+
+    /**
+     *
+     * @returns {Array<IProduct>} Array
+     */
+    public getProducts = (): IProduct[] => this.products
 }

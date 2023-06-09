@@ -2,11 +2,13 @@ import { Server } from 'http'
 import { Socket, Server as SocketServer } from 'socket.io'
 import { IO_PORT } from '../config'
 import { ExtendedError } from 'socket.io/dist/namespace'
-import { getTableById, getTables, addProduct } from '../Store'
-import { } from '../Store'
+import { getTableById, getTables, addProduct, getProducts } from '../Store'
 import { IProduct } from '../Store/models'
+import { sequelize } from '../db'
+
 type MapConnections = Map<string, { socket: Socket, timeout: NodeJS.Timeout }>
 type SocketNextCB = (err?: ExtendedError | undefined) => void
+
 export class WebSocketServer {
     private io: SocketServer
     private connections: MapConnections = new Map()
@@ -49,7 +51,7 @@ export class WebSocketServer {
                         sendTables()
                     })
                     .on('ping', () => sendTables())
-                    .emit('tables', getTables())
+                    .emit('update', { products: getProducts(), tables: getTables() })
             })
             .on('diconnect', (s) => this.onDisconnect(s, map))
     }

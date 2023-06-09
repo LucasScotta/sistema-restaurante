@@ -1,6 +1,8 @@
-import { DataTypes, Sequelize } from 'sequelize'
+import { DataTypes, ModelDefined, Sequelize } from 'sequelize'
 import pg from 'pg';
-import { ProductSchemaType } from './product.model';
+import { IProduct } from '../../../Store';
+
+type ProductSchemaType = ModelDefined<IProduct, IProduct>
 
 const sequelize = new Sequelize('bussiness', 'admin', 'admin', {
     host: 'localhost',

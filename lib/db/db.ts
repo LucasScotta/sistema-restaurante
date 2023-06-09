@@ -1,8 +1,7 @@
-import { Sequelize } from "sequelize";
+import { Model, Sequelize } from "sequelize";
 import pg from 'pg';
 import { UserSchema, RolSchema, ProductSchema } from "./models";
-import { UserActionsDTO, UserCreation } from "../model";
-import { User, UserDTO } from "../model";
+import { UserActionsDTO, UserCreation, UserDTO } from "../model";
 
 class Db {
     private connection: Sequelize | null = null
@@ -124,6 +123,16 @@ class Db {
         }
         catch (e) {
             return new Error('Something went wrong updating the user, please try again')
+        }
+    }
+    async getProducts() {
+        try {
+            const ProductSchema = this.ProductSchema
+            const products = ProductSchema.findAll()
+            return products
+        }
+        catch (e) {
+            throw e
         }
     }
 }
