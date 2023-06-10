@@ -9,17 +9,7 @@ export class Store {
     private products: IProduct[] = []
     constructor(tablesQuantity: number = 5) {
         this.products = []
-        sequelize
-            .getProducts()
-            .then(products => {
-                if (products instanceof Error) {
-                    return console.log(Error)
-                }
-                this.products = products
-            })
-            .catch(e => {
-                console.log('problem getting products', e)
-            })
+        this.refreshProducts()
         this.init(tablesQuantity)
     }
 
@@ -106,4 +96,17 @@ export class Store {
      * @returns {Array<IProduct>} Array
      */
     public getProducts = (): IProduct[] => this.products
+    public refreshProducts = () => {
+        sequelize
+            .getProducts()
+            .then(products => {
+                if (products instanceof Error) {
+                    return console.log(Error)
+                }
+                this.products = products
+            })
+            .catch(e => {
+                console.log('problem getting products', e)
+            })
+    }
 }

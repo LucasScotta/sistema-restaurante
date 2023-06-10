@@ -8,3 +8,5 @@ export interface IProduct {
     price: number
     // category: Category
 }
+
+export type IProductDTO = Omit<IProduct, 'id'>
