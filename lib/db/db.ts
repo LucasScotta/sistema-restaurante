@@ -2,7 +2,7 @@ import { Model, Sequelize } from "sequelize";
 import pg from 'pg';
 import { UserSchema, RolSchema, ProductSchema } from "./models";
 import { UserActionsDTO, UserCreation, UserDTO } from "../model";
-import { IProduct } from "../Store";
+import { IProduct, IProductDTO } from "../Store";
 
 class Db {
     private connection: Sequelize | null = null
@@ -140,18 +140,16 @@ class Db {
             throw e
         }
     }
-    async createProducts(products: IProduct[]): Promise<boolean> {
-        let allCreated = true
+    async createProduct(product: IProductDTO): Promise<boolean | Error> {
+        const productSchema = this.ProductSchema
         try {
-            const productSchema = this.ProductSchema
-            for (const product of products) {
-                console.log('for')
-                const { name, price } = product
-                await productSchema.create({ name, price })
-            }
+            const { name, price } = product
+            const resp = await productSchema.create({ name, price })
+            return !!resp
         }
-        catch (error) { allCreated = false }
-        return allCreated
+        catch (error) {
+            return new Error('Product name already in use')
+        }
     }
 }
 
