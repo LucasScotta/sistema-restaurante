@@ -9,6 +9,5 @@ export const getAll: Handler = async (req, resp) => {
         || !users || !products) {
         return resp.status(404).json({ status: 'failed', message: 'Data couldn\'t be loaded, please try again' })
     }
-    console.log('aca')
     if (!!users && !!products) return resp.status(200).json({ users, products })
 }

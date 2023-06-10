@@ -3,8 +3,11 @@ import { sequelize } from "../../../../db";
 import { IProduct } from "../../../../Store";
 
 export const createProduct: Handler = async (req, resp) => {
-    const products: IProduct[] = req.body.products
-    const created = await sequelize.createProducts(products)
-    if (!!created) return resp.sendStatus(200)
-    resp.status(400).send({ status: 'partial', message: 'One or more products couldn\'t be created' })
+    const product: IProduct = req.body.product
+    const created = await sequelize.createProduct(product)
+    if (created instanceof Error) {
+        return resp.status(400).json({ status: 'failed', message: 'Product already exists' })
+    }
+    if (!!created) return resp.status(200).json({ status: 'Success', message: "Product created!" })
+    resp.status(400).json({ status: 'failed', message: 'Product couldn\'t be created, please try again' })
 }
