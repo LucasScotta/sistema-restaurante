@@ -12,7 +12,10 @@ export class Store {
         sequelize
             .getProducts()
             .then(products => {
-                this.products = products.map(product => product.dataValues)
+                if (products instanceof Error) {
+                    return console.log(Error)
+                }
+                this.products = products
             })
             .catch(e => {
                 console.log('problem getting products', e)

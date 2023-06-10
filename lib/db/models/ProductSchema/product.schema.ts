@@ -2,7 +2,7 @@ import { DataTypes, ModelDefined, Sequelize } from 'sequelize'
 import pg from 'pg';
 import { IProduct } from '../../../Store';
 
-type ProductSchemaType = ModelDefined<IProduct, IProduct>
+type ProductSchemaType = ModelDefined<IProduct, Omit<IProduct, 'id'>>
 
 const sequelize = new Sequelize('bussiness', 'admin', 'admin', {
     host: 'localhost',
@@ -17,7 +17,7 @@ export const ProductSchema: ProductSchemaType = sequelize.define('product', {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        field: 'product_id'
+        field: 'product_id',
     },
     name: {
         type: DataTypes.STRING,

@@ -12,5 +12,5 @@ export const updateUser: RequestHandler = async (req, resp) => {
         return resp.status(500).json({ status: 'failed', message })
     }
     const message = "User successfuly updated"
-    return resp.send(200).json({ status: 'Success', message })
+    return resp.status(200).json({ status: 'Success', message })
 }

@@ -2,6 +2,7 @@ import { Model, Sequelize } from "sequelize";
 import pg from 'pg';
 import { UserSchema, RolSchema, ProductSchema } from "./models";
 import { UserActionsDTO, UserCreation, UserDTO } from "../model";
+import { IProduct } from "../Store";
 
 class Db {
     private connection: Sequelize | null = null
@@ -79,7 +80,7 @@ class Db {
             return { id, username, rol }
         }
         catch (error) {
-            throw new Error('Something went wrong, please contact support')
+            throw new Error('Something went wrong creating User, please try again')
         }
     }
     async deleteOne(id?: number, username?: string): Promise<boolean | Error> {
@@ -125,15 +126,32 @@ class Db {
             return new Error('Something went wrong updating the user, please try again')
         }
     }
-    async getProducts() {
+    /**
+     * 
+     * @returns {Error | IProduct[]} Array or Error
+     */
+    async getProducts(): Promise<Error | IProduct[]> {
         try {
             const ProductSchema = this.ProductSchema
-            const products = ProductSchema.findAll()
-            return products
+            const products = await ProductSchema.findAll()
+            return products.map((product) => product.dataValues)
         }
         catch (e) {
             throw e
         }
+    }
+    async createProducts(products: IProduct[]): Promise<boolean> {
+        let allCreated = true
+        try {
+            const productSchema = this.ProductSchema
+            for (const product of products) {
+                console.log('for')
+                const { name, price } = product
+                await productSchema.create({ name, price })
+            }
+        }
+        catch (error) { allCreated = false }
+        return allCreated
     }
 }
 
