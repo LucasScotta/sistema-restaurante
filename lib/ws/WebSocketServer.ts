@@ -4,7 +4,6 @@ import { IO_PORT } from '../config'
 import { ExtendedError } from 'socket.io/dist/namespace'
 import { getTableById, getTables, addProduct, getProducts } from '../Store'
 import { IProduct } from '../Store/models'
-import { sequelize } from '../db'
 
 type MapConnections = Map<string, { socket: Socket, timeout: NodeJS.Timeout }>
 type SocketNextCB = (err?: ExtendedError | undefined) => void
@@ -30,16 +29,19 @@ export class WebSocketServer {
         map.set(socket.id, {
             socket, timeout: setTimeout(() => {
                 map.delete(socket.id)
-                socket.disconnect
+                return socket.disconnect
             }, 10000)
         })
         return next()
     }
     private onConnect(socket: Socket, map: MapConnections) {
+        const sendData = () => socket.emit('update', { products: getProducts(), tables: getTables() })
         socket
             .on('auth', (id: number) => {
-                const sendTables = () => socket.emit('tables', getTables())
-                if (id < 1) socket.disconnect()
+                if (id < 1) {
+                    map.delete(socket.id)
+                    return socket.disconnect()
+                }
                 const conn = map.get(socket.id)
                 if (!conn) return socket.disconnect()
                 clearInterval(conn.timeout)
@@ -48,15 +50,15 @@ export class WebSocketServer {
                         const table = getTableById(id)
                         if (!table) return
                         products.forEach(product => addProduct(id, product))
-                        sendTables()
+                        sendData()
                     })
-                    .on('ping', () => sendTables())
+                    .on('ping', () => sendData())
                     .emit('update', { products: getProducts(), tables: getTables() })
             })
             .on('diconnect', (s) => this.onDisconnect(s, map))
     }
     private onDisconnect(socket: Socket, map: MapConnections) {
         map.delete(socket.id)
-        socket.disconnect()
+        return socket.disconnect()
     }
 }
