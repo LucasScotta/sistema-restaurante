@@ -83,14 +83,27 @@ class Db {
             throw new Error('Something went wrong creating User, please try again')
         }
     }
-    async deleteOne(id?: number, username?: string): Promise<boolean | Error> {
-        if (!username && !id) return new Error('Forbbidden credentials, please supply username or user ID')
+    async deleteUser(id?: number): Promise<boolean | Error> {
+        if (!id) return new Error('Forbbidden credentials, please supply username or user ID')
         try {
             const UserModel = this.UserSchema
-            const result = await UserModel.destroy(id ? { where: { id } } : { where: { username } })
+            const result = await UserModel.destroy({ where: { id } })
             return !!result
         } catch (error) {
             throw new Error('Something went wrong while executing query')
+        }
+    }
+    async deleteProduct(id: number): Promise<boolean | Error> {
+        console.log(id)
+        try {
+            const ProductModel = this.ProductSchema
+            const result = await ProductModel.destroy({ where: { id } })
+            console.log(result)
+            return true
+        }
+        catch (e) {
+            console.log(e)
+            return new Error('asd')
         }
     }
     async getAllUsers(): Promise<UserDTO[] | Error> {
@@ -114,16 +127,19 @@ class Db {
             throw new Error('Something wrong while executing query')
         }
     }
-    async updateById(id: number, newData: UserActionsDTO) {
+    isRol = (rol: string) => rol === 'admin' || rol === 'chef' || rol === "waiter"
+    async updateById(id: number, newData: UserActionsDTO): Promise<boolean | Error> {
         const { username, rol } = newData
-        if (!username && !rol) return
+        if (!username && !rol) return new Error('username or rol must be provided')
+        if (!!rol && !this.isRol(rol)) return new Error('Incorrect rol')
         try {
-            if (username) await this.UserSchema.update({ username }, { where: { id } })
-            if (rol) await this.RolSchema.update({ rol }, { where: { userId: id } })
-            return true
+            if (!!username) await this.UserSchema.update({ username }, { where: { id } })
+            if (!!rol && this.isRol(rol)) await this.RolSchema.update({ rol }, { where: { userId: id } })
+            return !!username || !!rol
         }
         catch (e) {
-            return new Error('Something went wrong updating the user, please try again')
+            const message = 'Something went wrong updating the user, please try again'
+            return new Error(message)
         }
     }
     /**

@@ -101,12 +101,9 @@ export class Store {
             .getProducts()
             .then(products => {
                 if (products instanceof Error) {
-                    return console.log(Error)
+                    return console.log('problem getting products', products)
                 }
                 this.products = products
-            })
-            .catch(e => {
-                console.log('problem getting products', e)
             })
     }
 }

@@ -53,7 +53,7 @@ export class WebSocketServer {
                         sendData()
                     })
                     .on('ping', () => sendData())
-                    .emit('update', { products: getProducts(), tables: getTables() })
+                sendData()
             })
             .on('diconnect', (s) => this.onDisconnect(s, map))
     }
