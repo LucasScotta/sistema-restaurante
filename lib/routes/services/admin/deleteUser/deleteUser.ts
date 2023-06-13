@@ -3,13 +3,15 @@ import { UserActionsDTO } from "../../../../model";
 import { sequelize } from "../../../../db";
 
 export const deleteUser: RequestHandler = async (req, resp) => {
-    const { username, id }: UserActionsDTO = req.body
-    const deleted = await sequelize.deleteOne(id, username)
+    const { id }: UserActionsDTO = req.params
+    try {
+        const deleted = await sequelize.deleteUser(id)
+        if (!!deleted) return resp.sendStatus(200)
+        return resp.sendStatus(201)
+    }
+    catch (e) {
+        console.log(e)
+        return resp.status(500).json({ message: 'Something wrong happened, please try again' })
 
-    if (deleted instanceof Error) return resp.status(500).json({ message: 'Something wrong happened, please try again' })
-
-    if (!!deleted) return resp.sendStatus(200)
-
-    return resp.status(400).json({ message: 'Forbidden credentials' })
-
+    }
 }

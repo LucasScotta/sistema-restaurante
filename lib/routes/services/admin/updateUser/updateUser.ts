@@ -9,8 +9,11 @@ export const updateUser: RequestHandler = async (req, resp) => {
     const updated = await sequelize.updateById(id, { username, rol })
     if (updated instanceof Error) {
         const { message } = updated
-        return resp.status(500).json({ status: 'failed', message })
+        return resp.status(400).json({ status: 'failed', message })
     }
-    const message = "User successfuly updated"
-    return resp.status(200).json({ status: 'Success', message })
+    if (!!updated) {
+        const message = "User successfuly updated"
+        return resp.status(200).json({ status: 'Success', message })
+    }
+    return resp.status(500).json({ status: 'Failed', message: 'Something went wrong updating user, please try again' })
 }

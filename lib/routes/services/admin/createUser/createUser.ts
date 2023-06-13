@@ -8,7 +8,7 @@ export const createUser: RequestHandler = async (req, resp) => {
 
     const user = await sequelize.createUser({ username, password, rol })
     if (user instanceof Error) {
-        return resp.status(403).json({ messasge: user.message })
+        return resp.status(403).json({ message: user.message })
     }
-    return resp.status(201).json(user)
+    return resp.status(201).json({ user, message: 'Created!' })
 }

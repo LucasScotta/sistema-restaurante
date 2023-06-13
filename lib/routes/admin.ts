@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { createProduct, createUser, deleteUser, getAll, getProducts, getUsers, updateUser } from "./services";
+import { createProduct, createUser, deleteUser, getAll, getProducts, getUsers, updateUser, deleteProduct } from "./services";
 
 const router = Router()
 
-router.delete('/users', deleteUser)
+router.delete('/users/:id', deleteUser)
+router.delete('/products/:id', deleteProduct)
 router.get('/users', getUsers)
 router.put('/users', updateUser)
 router.get('/products', getProducts)
