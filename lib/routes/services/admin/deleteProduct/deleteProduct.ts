@@ -9,7 +9,6 @@ export const deleteProduct: Handler = async (req, resp) => {
         resp.status(400).json({ message: 'Invalid ID', status: 'Failed' })
     }
     catch (e) {
-        console.log('deleteProduct error:', e)
         resp.status(500).json({ message: 'Something went wrong deleting product, please try again' })
     }
 }

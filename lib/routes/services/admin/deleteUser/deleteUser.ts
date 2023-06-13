@@ -10,8 +10,6 @@ export const deleteUser: RequestHandler = async (req, resp) => {
         return resp.sendStatus(201)
     }
     catch (e) {
-        console.log(e)
         return resp.status(500).json({ message: 'Something wrong happened, please try again' })
-
     }
 }

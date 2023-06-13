@@ -94,15 +94,12 @@ class Db {
         }
     }
     async deleteProduct(id: number): Promise<boolean | Error> {
-        console.log(id)
         try {
             const ProductModel = this.ProductSchema
             const result = await ProductModel.destroy({ where: { id } })
-            console.log(result)
             return true
         }
         catch (e) {
-            console.log(e)
             return new Error('asd')
         }
     }
@@ -156,12 +153,13 @@ class Db {
             throw e
         }
     }
-    async createProduct(product: IProductDTO): Promise<boolean | Error> {
+    async createProduct(product: IProductDTO): Promise<number | Error> {
         const productSchema = this.ProductSchema
         try {
             const { name, price } = product
-            const resp = await productSchema.create({ name, price })
-            return !!resp
+            const created = await productSchema.create({ name, price })
+            const { id } = created.dataValues
+            return id
         }
         catch (error) {
             return new Error('Product name already in use')
