@@ -1,6 +1,6 @@
 import { Handler } from "express";
 import { sequelize } from "../../../../db";
-import { IProduct } from "../../../../Store";
+import { IProduct, refreshProducts } from "../../../../Store";
 
 export const createProduct: Handler = async (req, resp) => {
     const product: IProduct = req.body.product
@@ -9,5 +9,6 @@ export const createProduct: Handler = async (req, resp) => {
     if (id instanceof Error) {
         return resp.status(400).json({ message })
     }
+    refreshProducts()
     resp.status(200).json({ message, id })
 }

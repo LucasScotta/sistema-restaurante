@@ -3,11 +3,12 @@ import { IProduct, ITable } from "../../models";
 import { Product } from "../Product";
 import { Table } from "../Table";
 import { sequelize } from "../../../db";
-
-export class Store {
+import { EventEmitter } from 'events'
+export class Store extends EventEmitter {
     private tables: Table[] = []
     private products: IProduct[] = []
     constructor(tablesQuantity: number = 5) {
+        super()
         this.products = []
         this.refreshProducts()
         this.init(tablesQuantity)
@@ -96,14 +97,10 @@ export class Store {
      * @returns {Array<IProduct>} Array
      */
     public getProducts = (): IProduct[] => this.products
-    public refreshProducts = () => {
-        sequelize
-            .getProducts()
-            .then(products => {
-                if (products instanceof Error) {
-                    return console.log('problem getting products', products)
-                }
-                this.products = products
-            })
+    public refreshProducts = async () => {
+        const products = await sequelize.getProducts()
+        if (!products || products instanceof Error) throw new Error('Problem refreshing products on Store Instance')
+        this.products = products
+        this.emit('update')
     }
 }

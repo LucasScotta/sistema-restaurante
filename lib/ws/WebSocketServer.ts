@@ -2,7 +2,7 @@ import { Server } from 'http'
 import { Socket, Server as SocketServer } from 'socket.io'
 import { IO_PORT } from '../config'
 import { ExtendedError } from 'socket.io/dist/namespace'
-import { getTableById, getTables, addProduct, getProducts } from '../Store'
+import { getTableById, getTables, addProduct, getProducts, store } from '../Store'
 import { IProduct } from '../Store/models'
 
 type MapConnections = Map<string, { socket: Socket, timeout: NodeJS.Timeout }>
@@ -21,6 +21,9 @@ export class WebSocketServer {
         io.use((s, n) => setConnection(s, n, connections))
         io.on('connection', (s) => onConnect(s, connections))
         io.listen(IO_PORT)
+        store.on('update', () => {
+            io.emit('update', { products: getProducts(), tables: getTables() })
+        })
         return io
     }
     private getIO = () => this.io

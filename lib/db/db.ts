@@ -1,4 +1,4 @@
-import { Model, Sequelize } from "sequelize";
+import { Sequelize } from "sequelize";
 import pg from 'pg';
 import { UserSchema, RolSchema, ProductSchema } from "./models";
 import { UserActionsDTO, UserCreation, UserDTO } from "../model";
@@ -97,7 +97,7 @@ class Db {
         try {
             const ProductModel = this.ProductSchema
             const result = await ProductModel.destroy({ where: { id } })
-            return true
+            return !!result
         }
         catch (e) {
             return new Error('asd')
